@@ -2,7 +2,7 @@ Raspberry Pi Zero W Python Development Environment
 ===========================================
 
 This project describes how to setup a Raspberry Pi Zero W for remote Python development using VSCode.  
-Once setup, you can develop and debug Python scripts on your local PC and execute on a remote Raspberry Pi Zero W.
+Once setup, you can develop and single-step debug Python scripts from your local PC and execute on a remote Raspberry Pi Zero W.
 
 The following was adapted from:
 https://bitbucket.org/jIRI/rasp-pi-zerow-vscode/src/master/
