@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "start-debugging",
+            "type": "shell",
+            "dependsOn" :["sync-workspace", "start-debugging-nowait"],
+            "command": "sleep",
+            "args": ["5"]
+        }, 
+        {
+            "label": "start-debugging-nowait",
+            "type": "shell",
+            "command": "plink",
+            "args": ["-batch", "-pw", "raspberry", "pi@raspberrypi.local", "sudo pkill python3; cd workspace; nohup python3 -m debugpy --wait-for-client --listen 0.0.0.0:5678 ./main.py > /dev/null &"],
+            "problemMatcher": []
+        }, 
+        {
+            "label": "stop-debugging",
+            "type": "shell",
+            "command": "plink",
+            "args": ["-batch", "-pw", "raspberry", "pi@raspberrypi.local", "sudo pkill python3"],
+            "problemMatcher": []
+        },
+        {
+            "label": "sync-workspace",
+            "type": "shell",
+            "command": "dirsync",
+            "args": ["${workspaceFolder}", "Z:/", "--purge", "--sync", "--ignore", ".venv", ".git"]
+        }
+    ]
+}

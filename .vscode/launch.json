@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Python",
+            "type": "python",
+            "request": "attach",
+            "preLaunchTask": "start-debugging",
+            "postDebugTask": "stop-debugging",
+            "connect": {
+                "host": "raspberrypi.local",
+                "port": 5678
+            },
+            "pathMappings": [
+                {
+                    "localRoot": "${workspaceFolder}",
+                    "remoteRoot": "/home/pi/workspace"
+                }
+            ]
+        }
+    ]
+}

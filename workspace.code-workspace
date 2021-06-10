@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "Raspberry Pi Zero Python Dev",
+			"path": "."
+		}
+	],
+	"extensions": {
+		"recommendations": [
+			"ms-python.python"
+		]
+	},
+	"settings": {
+		"python.pythonPath": ".venv\\Scripts\\python.exe"
+	},
+}

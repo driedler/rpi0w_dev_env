@@ -70,15 +70,15 @@ Unmount the SD card an plug it into the RPI.
 Then plug the USB micro into the RPI's `USB` port (_not_ PWR) and the other side into your computer.
 
 ## 5) Configure sharing on your Windows network adapter so Pi can see the Internet
-Go somewhere around __Control Panel -> Network and Internet -> Network Connections__
+Go somewhere around __Control Panel -> Network and Internet -> Network Connections__  
 Double click your default network connection, click Properties..., tab Sharing
 
 ## 6) Open an SSH session to the RPI
 
 On Windows, PuTTY is recommended: http://www.putty.org/
 
-Connect over SSH (port 22) with connection string: `pi@raspberrypi.local` 
-Accept certificate
+Connect over SSH (port 22) with connection string: `pi@raspberrypi.local`   
+Accept certificate  
 Default password is `raspberry`
 
 ## 7) Configure Wi-Fi
@@ -112,15 +112,9 @@ Then issue the command:
 sudo reboot
 ```
 
-This will reboot the RPI and close your SSH session. Once the RPI reboots, reopen the SSH session from step 7).
+This will reboot the RPI and close your SSH session. 
+You'll need to start a new SSH session for the subsequent steps.
 
-Get the Wi-Fi IP address of your RPI by issuing the command (in the SSH session):
-
-```
-ifconfig
-```
-
-And record the `inet` address for the `wlan0` interface (It should look something like `192.168.1.3`)
 
 ## 8) Create the workspace directory 
 
@@ -170,22 +164,26 @@ Then issue:
 sudo service smbd restart
 ```
 
-In your local file explorer, you should be able to open:
+In your local file explorer, you should be able to open (on Windows):
 ```
 \\RASPBERRYPI\workspace
 ```
 
+
 ## 10) Install debugpy on the Pi to be able debug remotely
+
+We use [debugpy](https://github.com/microsoft/debugpy) to enable Python remote debugging.
 
 From the RPI SSH session (step 7), issue the command:
 
 ```
-sudo pip install debugpy==1.3.0
+sudo pip3 install debugpy==1.3.0
 ```
-(You may be able to use a newer first, but that version worked for me)
+(You may be able to use a newer version, but that version worked for me)
 
+__NOTE:__ This repo uses Python3, hence `pip3`.
 
-## 11) Resize your Pi partition to use all available space on SD card
+## 12) Resize your Pi partition to use all available space on SD card
 
 From the RPI SSH session (step 7), issue the commands:
 ```
@@ -195,4 +193,42 @@ sudo reboot
 
 # Prepare VSCode Workspace
 
+## 1) Install the dirsync Python package
 
+
+We use the [dirsync](https://pypi.org/project/dirsync/) Python package
+to automatically synchronize files between the local workspace and the remote RPI workspace.
+
+Issue the following command from a local terminal to install the package:
+
+```
+pip3 install dirsync
+```
+
+After installing, the `dirsync` command should be accessbile to VSCode.
+
+## 2) Open VSCode Workspace
+
+Assuming you cloned this repo, open the VSCode 'workspace' that is at the root of this repo: `workspace.code-workspace` 
+then install the 'Recommended Extensions'.
+
+## 3) Map Network Drive
+
+If using Windows, map the `\\RASPBERRYPI\workspace` network drive, more details [here](https://support.microsoft.com/en-us/windows/map-a-network-drive-in-windows-10-29ce55d1-34e3-a7e2-4801-131475f9557d)  
+After this is complete, you should have a new drive, e.g. `Z:\\` that points to your RPI's `/home/pi/workspace` directory.
+
+This is required so we can easily sync the local workspace with the RPI's workspace.
+
+## 4) Update tasks.json
+
+Open `<repo root>/.vscode/tasks.json`,
+
+In the `sync-workspace` task, update the arguments as necessary for your workspace.  
+At a minimum, you may need to change `z:/` to your networking mapping drive from the previous step.
+
+# Run the debugger
+
+That's it! Running the `Debug Python` debug configuration should:
+1. Synchronize the local workspace with the RPI's workspace (assuming the network drive is properly mapped)
+2. Start the `main.py` python script with remote debugging enabled
+3. Cause VSCode to connect to the debug server and allow for single-stepping in the Python script as if it were running locally
