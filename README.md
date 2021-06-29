@@ -7,6 +7,8 @@ Once setup, you can develop and single-step debug Python scripts from your local
 The following was adapted from:
 https://bitbucket.org/jIRI/rasp-pi-zerow-vscode/src/master/
 
+__NOTE:__ See [rpi0_tflite_picamera](https://github.com/driedler/rpi0_tflite_picamera) which is provides a more realistic dev environment.
+
 # Hardware 
 
 This assumes you have a Raspberry Pi Zero W (W = built-in wifi/bluetooth support).
